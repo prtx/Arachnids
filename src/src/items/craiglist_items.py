@@ -8,7 +8,9 @@
 import scrapy
 
 
-class SrcItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class CraiglistItem(scrapy.Item):
+    
+    title = scrapy.Field()
+    datetime = scrapy.Field()
+    location = scrapy.Field()
+    link = scrapy.Field()

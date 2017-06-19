@@ -12,7 +12,9 @@ class PokemonDBSpider(scrapy.Spider):
     def start_requests(self):
         
         url = "https://pokemondb.net/pokedex/all"
-        yield scrapy.Request(url, callback=self.parse_pokedex)
+        url = "https://pokemondb.net/pokedex/bulbasaur"
+        while True:
+            yield scrapy.Request(url, callback=self.parse_pokemon_info)
 
 
     def parse_pokedex(self, response):
@@ -34,3 +36,8 @@ class PokemonDBSpider(scrapy.Spider):
             pokemon['speed'] = row.xpath('td[10]/text()').extract_first()
 
             yield pokemon
+    
+    
+    def parse_pokemon_info(self, response):
+        
+        print(len(response.css('div.col.desk-span-8.lap-span-6')))

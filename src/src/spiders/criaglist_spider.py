@@ -1,16 +1,25 @@
 #!/usr/bin/python
 
-from scrapy.spider import BaseSpider
+from scrapy.contrib.spiders import CrawlSpider, Rule
+from scrapy.linkextractors import LinkExtractor
 from scrapy.selector import Selector
 from src.items.craiglist_items import CraiglistItem
 
-class CraigslistSpider(BaseSpider):
+class CraigslistSpider(CrawlSpider):
 
     name = "CraigslistSpider"
     allowed_domains = ["criagslist.org"]
     start_urls = ["https://sfbay.craigslist.org/search/sof"]
 
-    def parse(self, response):
+    rules = Rule(
+            LinkExtractor(
+                allow = ("index\d00\.html"),
+                ),
+            callback = "parse_item",
+            follow = True,
+            ),
+
+    def parse_items(self, response):
 
         hxs = Selector(response)
         results = hxs.xpath('//p')
